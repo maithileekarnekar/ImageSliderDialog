@@ -9,7 +9,7 @@ import androidx.annotation.NonNull;
 
 public class ImageSliderDialog extends Dialog {
 
-    public interface onImageSliderExpired {
+    public interface OnImageSliderExpired {
         void onImageSliderExpired();
     }
 
@@ -22,15 +22,17 @@ public class ImageSliderDialog extends Dialog {
     private ImageSliderThread imageSliderThread;
 
     private ImageView image;
+    private int [] arr;
+    private int currentIndex = 0;
 
     public ImageSliderDialog(@NonNull Context context) {
         super(context);
         setContentView(R.layout.image_slider_dialog);
         initViews();
+        initImages();
     }
 
     void setImageSlider() {
-
         imageSliderThread = new ImageSliderThread();
         imageSliderThread.execute((Object)null);
     }
@@ -39,21 +41,30 @@ public class ImageSliderDialog extends Dialog {
         image = findViewById(R.id.image);
     }
 
+    private void initImages() {
+        arr = new int[]{
+                R.drawable.aurora,
+                R.drawable.milkyway,
+                R.drawable.bioluminescence,
+                R.drawable.rainbow,
+                R.drawable.fireflies,
+        };
+    }
+
     private void updateImage() {
+        currentIndex++;
+        if (currentIndex >= arr.length) {
+            currentIndex = 0;
+            if(onImageSliderExpired != null) {
+                onImageSliderExpired.onImageSliderExpired();
+            }
+        }
+        image.setImageResource(arr[currentIndex]);
     }
 
 
     private class ImageSliderThread extends AsyncTask<Object, Integer, Object> {
 
-       /* private int[] imageResources = {
-                R.drawable.aurora;
-                R.drawable.goldengatebridge;
-                R.drawable.milkyway;
-                R.drawable.rootbridge;
-                R.drawable.bioluminescence;
-        };
-
-        private int currentIndex = 0;*/
 
         private boolean state =  true;
 

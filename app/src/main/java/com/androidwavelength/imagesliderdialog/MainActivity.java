@@ -21,7 +21,7 @@ public class MainActivity extends AppCompatActivity {
         imageSliderDialog.show();
     }
 
-    private class MyOnImageSliderExpired implements ImageSliderDialog.onImageSliderExpired {
+    private class MyOnImageSliderExpired implements ImageSliderDialog.OnImageSliderExpired {
         @Override
         public void onImageSliderExpired() {
 
